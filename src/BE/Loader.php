@@ -28,41 +28,24 @@ class Loader extends PluginBase implements Listener{
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
-
-    public function onTransaction(InventoryTransactionEvent $ev){
-        $failed = [];
-        foreach(Server::getInstance()->getOnlinePlayers() as $player) {
-            while (!$ev->getQueue()->getTransactions()->isEmpty()) {
-                $transaction = $ev->getQueue()->getTransactions()->dequeue();
-                // $this->getLogger()->info("clickEvent");
-                if ($transaction->getInventory() instanceof ContainerInventory || $transaction->getInventory() instanceof PlayerInventory) {
-                    $player->getServer()->getPluginManager()->callEvent($event = new InventoryClickEvent($transaction->getInventory(), $player, $transaction->getSlot(), $transaction->getInventory()->getItem($transaction->getSlot())));
-                    if ($event->isCancelled()) {
-                        $ev->setCancelled(true);
-                    }
-                    if ($ev->isCancelled()) {
-                        $transaction->sendSlotUpdate($player);
-                        continue;
-                    } elseif (!$transaction->execute($player)) {
-                        $transaction->addFailure();
-                        if ($transaction->getFailures() >= SimpleTransactionQueue::DEFAULT_ALLOWED_RETRIES) {
-                            $failed[] = $transaction;
-                        } else {
-                            $transaction->sendSlotUpdate($player);
-                            $ev->getQueue()->getTransactions()->enqueue($transaction);
-                        }
-                        continue;
-                    }
-                   
-                    $transaction->setSuccess();
-                    $transaction->sendSlotUpdate($player);
-
-                    foreach ($failed as $f) {
-                        $f->sendSlotUpdate($player);
-                    }
-                }
-            }
-        }
+	public function onTransaction(InventoryTransactionEvent $event){
+        $transactions = $event->getTransaction()->getTransactions();
+		$player = null;
+		$chestinv = null;
+		$action = null;
+		foreach($transactions as $transaction){
+			if(($inv = $transaction->getInventory()) instanceof ChestInventory){
+				foreach($inv->getViewers() as $assumed){
+					if($assumed instanceof Player){
+						$player = $assumed;
+						$chestinv = $inv;
+						$action = $transaction;
+						break 2;
+					}
+				}
+			}
+		}
+        
+        $player->getServer()->getPluginManager()->callEvent($event = new InventoryClickEvent($chestinv, $player, $action->getSlot(), $action->getItem($action->getSlot())));
     }
-
 }
