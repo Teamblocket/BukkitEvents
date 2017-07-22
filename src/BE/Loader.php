@@ -34,7 +34,7 @@ class Loader extends PluginBase implements Listener{
 		$chestinv = null;
 		$action = null;
 		foreach($transactions as $transaction){
-			if(($inv = $transaction->getInventory()) instanceof ChestInventory){
+			if(($inv = $transaction->getInventory()) instanceof Inventory){
 				foreach($inv->getViewers() as $assumed){
 					if($assumed instanceof Player){
 						$player = $assumed;
