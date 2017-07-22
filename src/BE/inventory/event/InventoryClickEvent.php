@@ -14,7 +14,7 @@ use pocketmine\inventory\Inventory;
 use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\event\inventory\InventoryEvent;
-use pocketmine\inventory\ChestInventory;
+use pocketmine\inventory\Inventory;
 
 class InventoryClickEvent extends InventoryEvent implements Cancellable{
     public static $handlerList = null;
@@ -31,7 +31,7 @@ class InventoryClickEvent extends InventoryEvent implements Cancellable{
      * @param int       $slot
      * @param Item      $item
      */
-    public function __construct(ChestInventory $inventory, Player $who, $slot, Item $item){
+    public function __construct(Inventory $inventory, Player $who, $slot, Item $item){
         $this->inventory = $inventory;
         $this->who = $who;
         $this->slot = $slot;
