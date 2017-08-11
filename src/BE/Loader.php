@@ -28,8 +28,8 @@ class Loader extends PluginBase implements Listener{
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
-	public function onTransaction(InventoryTransactionEvent $event){
-        $transactions = $event->getTransaction()->getTransactions();
+	public function onTransaction(InventoryTransactionEvent $event){ // Credit to Muqsit i didnt make this code! 
+        $transactions = $event->getTransaction()->getTransactions();     // REPO: https://github.com/Muqsit/ChestShop/blob/master/src/ChestShop/EventListener.php#L57
 		$player = null;
 		$chestinv = null;
 		$action = null;
