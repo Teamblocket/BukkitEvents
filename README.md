@@ -24,12 +24,12 @@ class YOUCLASS extends PluginBase implements Listener{
 
     ## Event to work
     public function onClick(InventoryClickEvent $event){
-        $player = $event->getWhoClicked();
+        $player = $event->getClicker();
         $inventory = $event->getInventory();
         if(!$inventory instanceof ChestInventory){
             return;
         }
-        if($event->getSlot() == 1 or $event->getItem()->getId() == 1){
+        if($event->getItem()->getId() == 1){
             $event->setCancelled(true);
             $player->sendMessage("working");
         }
