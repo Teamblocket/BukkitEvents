@@ -40,6 +40,7 @@ class Loader extends PluginBase implements Listener{
 						$player = $assumed;
 						$chestinv = $inv;
 						$action = $transaction;
+						$ev = new InventoryClickEvent($chestinv, $player, $action->getTargetItem());
 						break 2;
 					}
 				}
@@ -48,8 +49,19 @@ class Loader extends PluginBase implements Listener{
 				return;
 			}
 			if($acyion->getTargetItem() !== null){
-				$ev = new InventoryClickEvent($chestinv, $player, $action->getTargetItem());
 				$this->getServer()->getPluginManager()->callEvent($ev);
+			}
+			if($event->isCancelled()){
+				$ev->setCancelled(true);
+			}
+		}
+	}
+	
+	public function click(InventoryClickEvent $ev){
+		if($ev->getInventory() instanceof ChestInventory){
+			if($ev->getItem()->getId() == 102){
+				$ev->setCancelled(true);
+				$ev->getPLayer()->sendMessage("Working");
 			}
 		}
 	}
