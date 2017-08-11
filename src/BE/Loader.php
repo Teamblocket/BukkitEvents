@@ -44,8 +44,13 @@ class Loader extends PluginBase implements Listener{
 					}
 				}
 			}
+			if(($player ?? $chestinv ?? $action) === null){
+				return;
+			}
+			if($acyion->getTargetItem() !== null){
+				$ev = new InventoryClickEvent($chestinv, $player, $action->getTargetItem());
+				$this->getServer()->getPluginManager()->callEvent($ev);
+			}
 		}
-        
-        $this->getServer()->getPluginManager()->callEvent($ev = new InventoryClickEvent($chestinv, $player, $action->getSlot(), $action->getItem($action->getSlot())));
-    }
+	}
 }
