@@ -18,18 +18,20 @@ use pocketmine\inventory\Inventory;
 
 class InventoryClickEvent extends InventoryEvent implements Cancellable{
     public static $handlerList = null;
-
+    
+    /** @var Inventory */
+    private $inventory;
+    
     /** @var Player */
-    private $who;
-    private $slot;
+    private $player;
+
     /** @var Item */
-    private $item;
+    private $target;
 
     /**
      * @param Inventory $inventory
-     * @param Player    $who
-     * @param int       $slot
-     * @param Item      $item
+     * @param Player    $player
+     * @param Item      $target
      */
     public function __construct(Inventory $inventory, Player $player, Item $target){
         $this->inventory = $inventory;
@@ -59,6 +61,9 @@ class InventoryClickEvent extends InventoryEvent implements Cancellable{
         return $this->target;
     }
     
+    /**
+     * @return Inventory
+     */
     public function getInventory(){
         return $this->inventory;
     }
