@@ -31,40 +31,32 @@ class InventoryClickEvent extends InventoryEvent implements Cancellable{
      * @param int       $slot
      * @param Item      $item
      */
-    public function __construct(Inventory $inventory, Player $who, $slot, Item $item){
+    public function __construct(Inventory $inventory, Player $player, Item $target){
         $this->inventory = $inventory;
-        $this->who = $who;
-        $this->slot = $slot;
-        $this->item = $item;
+        $this->player = $player;
+        $this->target = $item;
         parent::__construct($inventory);
     }
 
     /**
      * @return Player
      */
-    public function getWhoClicked(){
-        return $this->who;
+    public function getClicker(){
+        return $this->player;
     }
     
     /**
      * @return Player
      */
     public function getPlayer(){
-        return $this->who;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSlot(){
-        return $this->slot;
+        return $this->player;
     }
 
     /**
      * @return Item
      */
     public function getItem(){
-        return $this->item;
+        return $this->target;
     }
     
     public function getInventory(){
