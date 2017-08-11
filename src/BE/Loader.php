@@ -48,7 +48,7 @@ class Loader extends PluginBase implements Listener{
 			if(($player ?? $chestinv ?? $action) === null){
 				return;
 			}
-			if($acyion->getTargetItem() !== null){
+			if($action->getTargetItem() !== null){
 				$this->getServer()->getPluginManager()->callEvent($ev);
 			}
 			if($event->isCancelled()){
@@ -61,7 +61,7 @@ class Loader extends PluginBase implements Listener{
 		if($ev->getInventory() instanceof ChestInventory){
 			if($ev->getItem()->getId() == 102){
 				$ev->setCancelled(true);
-				$ev->getPLayer()->sendMessage("Working");
+				$ev->getPlayer()->sendMessage("Working");
 			}
 		}
 	}
